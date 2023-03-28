@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>IA - TAREA 2.1</title>
+  </head>
+
+  <body>
+    
+    <h1>Metros a kilómetros</h1>
+    <p>Ingrese una cantidad en metros:</p>
+    <input type="number" id="kminput">
+    <button onclick="conversionkm()">Convertir</button>
+    <p id="kmresultado"></p>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"> </script>
+
+
+    <h1>Libras a kilogramos</h1>
+    <p>Ingrese una cantidad de libras:</p>
+    <input type="number" id="librasinput">
+    <button onclick="conversionlb()">Convertir</button>
+    <p id="librasresultado"></p>
+
+    <h1>Horas a minutos</h1>
+    <p>Ingrese la cantidad de Horas:</p>
+    <input type="number" id="horasinput">
+    <button onclick="conversionhora()">Convertir</button>
+    <p id="horasresultado"></p>
+
+<script>
+
+    let modelo1 = null;
+    let modelo2 = null;
+    let modelo3 = null;
+    // esto es lo primeo que se ejecuta al cargar la pagina
+    ( async ()=>{
+
+        console.log('cargando modelo')
+
+        // "detetien" o "hace esperar" a que cargue por completo el modelo
+        modelo1 = await tf.loadLayersModel('./modelo1/model.json')
+        modelo2 = await tf.loadLayersModel('./modelo2/model.json')
+        modelo3 = await tf.loadLayersModel('./modelo3/model.json')
+        console.log('modelo cargado correctamente')
+
+    })();
+
+
+    function conversionkm(){
+
+        const km = document.getElementById('kminput')
+        const resultado = document.getElementById('kmresultado')
+
+
+        //asegurarnos que el modelo ya está cargado
+        if( modelo1 != null){
+
+            const tensor = tf.tensor1d([parseInt(kminput.value)])
+
+            let prediccion = modelo1.predict(tensor).dataSync()
+            
+            prediccion = Math.round(prediccion)
+
+            document.getElementById("kmresultado").innerHTML = `${prediccion} Km `
+        }else{
+            console.log('Intente mas tarde')
+        }
+    }
+
+    function conversionlb(){
+
+        const km = document.getElementById('librasinput')
+        const resultado = document.getElementById('librasresultado')
+
+        //asegurarnos que el modelo ya está cargado
+        if( modelo2 != null){
+
+            const tensor = tf.tensor1d([parseInt(librasinput.value)])
+
+            let prediccion = modelo2.predict(tensor).dataSync()
+            
+            prediccion = Math.round(prediccion)
+
+            document.getElementById("librasresultado").innerHTML = `${prediccion} Kg `
+        }else{
+            console.log('Intente mas tarde')
+        }
+    }
+
+    function conversionhora(){
+
+        const km = document.getElementById('horasinput')
+        const resultado = document.getElementById('horasresultado')
+
+        //asegurarnos que el modelo ya está cargado
+        if( modelo3 != null){
+
+            const tensor = tf.tensor1d([parseInt(horasinput.value)])
+
+            let prediccion = modelo3.predict(tensor).dataSync()
+            
+            prediccion = Math.round(prediccion)
+
+            document.getElementById("horasresultado").innerHTML = `${prediccion} min `
+        }else{
+            console.log('Intente mas tarde')
+        }
+    }
+
+</script
+</body>
+</html>
+
